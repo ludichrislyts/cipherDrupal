@@ -64,13 +64,12 @@ function cipher_form()
 	return $form;
 }
 function validate_direction_callback($form, &$form_state){
-	//if()
 	$commands = array();
 	$commands[] = ajax_command_html('#error_message', render($form['direction']));
 	$commands[] = array(
 		'command' => 'validateDirectionCallback',
 		'selectedValue' => $form_state['values']['direction'],
-		'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
+		// 'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
 	);
 	return array('#type' => 'ajax', '#commands' => $commands);
 }
