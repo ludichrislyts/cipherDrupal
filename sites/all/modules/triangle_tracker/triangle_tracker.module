@@ -1,0 +1,112 @@
+<?php
+
+    function triangle_tracker_menu()
+    {
+        $items = array();
+        $items['triangle_tracker'] = array(
+            'title' => 'Triangle Tracker',
+            'page callback' => 'drupal_get_form',
+            'page arguments' => array('triangle_tracker_form'),
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+
+        $items['triangle_tracker_result'] = array(
+            'title' => 'Result!',
+            'page callback' => 'triangle_tracker_result',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+        );
+        return $items;
+    }
+
+    function triangle_tracker_form()
+    {
+        $form['side1'] = array(
+            '#title' => 'Side 1',
+            '#type' => 'textfield',
+            '#description' => 'Side 1 of the triangle',
+            '#element_validate' => array('element_validate_number', 'triangle_validate_range'),
+            '#required' => TRUE,
+        );
+
+        $form['side2'] = array(
+            '#title' => 'Side 2',
+            '#type' => 'textfield',
+            '#description' => 'Side 2 of the triangle',
+            '#element_validate' => array('element_validate_number', 'triangle_validate_range'),
+            '#required' => TRUE,
+        );
+
+        $form['side3'] = array(
+            '#title' => 'Side 3',
+            '#type' => 'textfield',
+            '#description' => 'Side 3 of the triangle',
+            '#element_validate' => array('element_validate_number', 'triangle_validate_range'),
+            '#required' => TRUE,
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Find your triangle!',
+        );
+
+        return $form;
+    }
+
+    // function triangle_tracker_form_alter(&$form, &$form_state, $form_id){
+    //     if($form_id == 'side1'){
+    //         $form['submit']['#validate'][] = 'triangle_tracker_form_validate';
+    //     }
+    //     if($form_id == 'side2'){
+    //         $form['submit']['#validate'][] = 'triangle_tracker_form_validate';
+    //     }
+    //     if($form_id == 'side3'){
+    //         $form['submit']['#validate'][] = 'triangle_tracker_form_validate';
+    //     }
+    // }
+
+    function triangle_validate_range($element)
+    {
+        if ($element['#value'] < 0){
+            form_error($element, t('Number must be at least 1.'));
+        }
+    }
+
+
+    function triangle_tracker_form_validate($form, &$form_state){
+        $side1 = $form_state['values']['side1'];
+        $side2 = $form_state['values']['side2'];
+        $side3 = $form_state['values']['side3'];
+
+        if($side1 >= $side2 + $side3){
+            form_set_error('side1', 'Side 1 is too long to make a triangle with Side 2 and Side 3.');
+        }else if($side2 >= $side1 + $side3){
+            form_set_error('side2', 'Side 2 is too long to make a triangle with Side 1 and Side 3.');
+        }else if($side3 >= $side2 + $side1){
+            form_set_error('side3', 'Side 3 is too long to make a triangle with Side 1 and Side 2.');
+        }
+    }
+
+    function triangle_tracker_form_submit($form, &$form_state)
+    {
+        $s1 = $form_state['values']['side1'];
+        $s2 = $form_state['values']['side2'];
+        $s3 = $form_state['values']['side3'];
+
+        if (($s1 === $s2) && ($s2 === $s3)) {
+                $triangle_results = 'an equilateral triangle!';
+            } else if (($s1 === $s2) && ($s1 !== $s3) || ($s2 === $s3) && ($s2 !== $s1) || ($s1 === $s3) && ($s1 !== $s2)) {
+                $triangle_results = 'an isosceles triangle!';
+            } else if (($s1 !== $s2) && ($s2 !== $s3)) {
+                $triangle_results = 'a scalene triangle!';
+            }
+        $_SESSION['triangle_result'] = $triangle_results;
+        $form_state['redirect'] = 'triangle_tracker_result';
+
+    }
+
+    function triangle_tracker_result()
+    {
+        $answer = $_SESSION['triangle_result'];
+        return 'Your triangle is ' . $answer . '!';
+    }

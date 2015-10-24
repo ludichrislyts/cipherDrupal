@@ -1,0 +1,105 @@
+<?php
+
+function cipher_menu()
+{
+	$items = array();
+	$items['cipher_input_page'] = array(
+			'title' => 'Cipher',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('cipher_form'),
+			'access callback' => TRUE,
+			'type' => MENU_NORMAL_ITEM,
+	);
+	$items['cipher_result_page'] = array(
+			'title' => 'Results of Shift',
+			'page callback' => 'shift',// may need to change this
+			'access callback' => TRUE,
+			'type' =>MENU_CALLBACK,
+	);
+	return $items;
+}
+
+function cipher_form()
+{
+	$form['phrase'] = array(
+		'#title' => 'Phrase',
+		'#type' => 'textfield',
+		'#description' => 'Enter the phrase of which you want the letters shifted:',
+		//'#element_validate' => array('validate_phrase'),
+		'#required' => TRUE,
+	);
+	$form['shift'] = array(
+		'#title' => 'Shift Value',
+		'#type' => 'textfield',
+		'#description' => 'Enter the shift value as a positive integer',
+		'#element_validate' => array('element_validate_number'),
+		'#required' => TRUE,
+	);
+	$form['direction'] = array(
+		'#title' => 'Direction',
+		'#type' => 'textfield',
+		'#description' => 'Enter the shift direction',
+		//'#element_validate' => array('validate_direction'),
+		'#prefix' => '<div id="error_message">',
+		'#suffix' => '</div>',
+		'#required' => TRUE,
+		'#autofocus' => TRUE,
+		'#ajax' => array(
+				'event' => 'keyup',
+				'callback' => 'validate_direction_callback',
+		), 
+	);
+	$form['#attached']['js'] = array(
+		array(
+			'type' => 'file',
+			'data' => drupal_get_path('module', 'cipher') . '/js/cipher.js',
+		),
+	);
+		
+	//$form['#validate'][] = 'validate_phrase';
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Shift it!',
+	);
+	return $form;
+}
+function validate_direction_callback($form, &$form_state){
+	//if()
+	$commands = array();
+	$commands[] = ajax_command_html('#error_message', render($form['direction']));
+	$commands[] = array(
+		'command' => 'validateDirectionCallback',
+		'selectedValue' => $form_state['values']['direction'],
+		'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
+	);
+	return array('#type' => 'ajax', '#commands' => $commands);
+}
+// function validate_phrase($form, &$form_state){
+	
+// }
+// function validate_range($form, &$form_state){
+	
+// }
+// function validate_direction($form, &$form_state){
+// 	$direction_input = $form_state['values']['direction'];
+// 	if($direction_input != 'left' || $direction_input != 'right'){
+// 		form_set_error('direction', 'Entry must be "left" or "right"');
+// 	}
+// }
+function cipher_form_alter(&$form, $form_state, $form_id)
+{
+	if($form_id =='cipher_form'){
+		$form['submit']['#attributes'] = array(
+			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: rgb(231, 230, 173); background-color: rgb(186, 15, 15);'));		
+	}	
+}
+	//drupal_set_message("Form ID is : " . $form_id);
+//from search:
+// function YOURTHEME_form_alter(&$form, $form_state, $form_id)   {
+//   if($form_id == 'YOUR_FORM_ID') {
+//     $form['grant_opportunity_end_date']['#attributes'] = array('class' => array('datepicker'));
+//   }
+//   // this displays some general info so you can check
+//   drupal_set_message("Form ID is : " . $form_id);
+//   drupal_set_message(dprint_r($form, TRUE));
+// }

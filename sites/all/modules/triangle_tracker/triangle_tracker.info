@@ -1,0 +1,5 @@
+name = Triangle Tracker
+description = Allows the user to input 3 numbers and the computer returns what kind of triangle those numbers form.
+package = My First Modules
+core = 7.x
+files[] = triangle-tracker.module
