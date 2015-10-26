@@ -6,7 +6,10 @@
 		if(input.length < 1){
 			return;
 		}
-		var form = document.getElementById('cipher-form');
+		// trying to make sure to grab the right form even when drupal changes it
+		var content_div = document.getElementsByClassName('content')[0];
+		var form = document.getElementsByTagName('FORM')[1];
+		// var form = document.getElementById('cipher-form'); // original
 		var button = form.getElementsByTagName('INPUT')[3];
 		$(button).attr("value", "Shift it!");
 		$(button).css("color", "black");		
