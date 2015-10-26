@@ -32,7 +32,11 @@ function cipher_form()
 		'#title' => 'Shift Value',
 		'#type' => 'textfield',
 		'#description' => 'Enter the shift value as a positive integer',
+<<<<<<< HEAD
 		'#element_validate' => array('element_validate_integer_positive', 'shift_validate_range'),
+=======
+		'#element_validate' => array('element_validate_number'),
+>>>>>>> 1827975e0bab86bee92ded1a0f34385d8cad97dd
 		'#required' => TRUE,
 	);
 	$form['direction'] = array(
@@ -49,7 +53,10 @@ function cipher_form()
 				'callback' => 'validate_direction_callback',
 		), 
 	);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1827975e0bab86bee92ded1a0f34385d8cad97dd
 	$form['#attached']['js'] = array(
 		array(
 			'type' => 'file',
@@ -64,6 +71,7 @@ function cipher_form()
 	);
 	return $form;
 }
+<<<<<<< HEAD
 function shift_validate_range($element)
 {
 	drupal_set_message($element['#value']);
@@ -71,6 +79,8 @@ function shift_validate_range($element)
 		form_error($element, t('Number must be at least 1 and less than 26.'));
 	}
 }
+=======
+>>>>>>> 1827975e0bab86bee92ded1a0f34385d8cad97dd
 function validate_direction_callback($form, &$form_state){
 	$commands = array();
 	$commands[] = ajax_command_html('#error_message', render($form['direction']));
@@ -97,7 +107,11 @@ function cipher_form_alter(&$form, $form_state, $form_id)
 {
 	if($form_id =='cipher_form'){
 		$form['submit']['#attributes'] = array(
+<<<<<<< HEAD
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
+=======
+			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: rgb(231, 230, 173); background-color: rgb(186, 15, 15);'));		
+>>>>>>> 1827975e0bab86bee92ded1a0f34385d8cad97dd
 	}	
 }
 	//drupal_set_message("Form ID is : " . $form_id);

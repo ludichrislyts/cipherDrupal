@@ -42,7 +42,11 @@
             '#title' => 'Side 3',
             '#type' => 'textfield',
             '#description' => 'Side 3 of the triangle',
+<<<<<<< HEAD
             '#element_validate' => array('element_validate_integer', 'triangle_validate_range'),
+=======
+            '#element_validate' => array('element_validate_number', 'triangle_validate_range'),
+>>>>>>> 1827975e0bab86bee92ded1a0f34385d8cad97dd
             '#required' => TRUE,
         );
         $form['submit'] = array(
