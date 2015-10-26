@@ -61,7 +61,6 @@ function cipher_form()
 }
 function shift_validate_range($element)
 {
-	drupal_set_message($element['#value']);
 	if ($element['#value'] < 0 || $element['#value'] > 25){
 		form_error($element, t('Number must be at least 1 and less than 26.'));
 	}
@@ -82,35 +81,39 @@ function cipher_form_alter(&$form, $form_state, $form_id)
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
 	}	
 }
-function cipher_form_submit($form, $form_state){
+function cipher_form_submit($form, &$form_state){
 	$input = $form_state['values']['phrase'];
 	$shift_value = $form_state['values']['shift'];
 	$direction = $form_state['values']['direction'];
-	$word_array = explode(' ', $input);
-	$new_array = [];
-	$temp_word = '';
-	foreach($word_array as $word){
-		for($i = 0; $i < strlen($word); $i++){
-			if($direction == 'left'){
-				ord($word[$i]) -= $shift_value;
-				if(ord($word) < 65 || ord(word) < 97){
-					ord($word) += 26;
-				}
-				$temp_word . $word[$i];
-			}else if($direction == 'right'){
-				ord($word[$i]) += $shift_value;
-				if(ord($word) > 90 || ord(word) > 122){
-					ord($word) -= 26;
-				}
-				$new_array . $word[$i];
+	$new_phrase = '';
+	$new_chr = '';
+
+	for($i = 0; $i < strlen($input); $i++){
+		drupal_set_message(ord($input[$i]));
+		$num = ord($input[$i]);
+		if(($num < 65 || ($num > 90 && $num < 97) || $num > 122)){
+			$new_phrase .= $input[$i];
+			continue;
+		}else if($direction == 'left'){
+			$num -= $shift_value;
+			if($num < 65 || $num < 97){
+				$num += 26;
 			}
+			$new_chr = chr($num);
+			$new_phrase .= $new_chr;
+		}else if($direction == 'right'){
+			$num = ord($input[$i]);
+			if($num > 90 || $num > 122){
+				$num -= 26;
+			}
+			$new_chr = chr($num);
+			$new_phrase .= $new_chr;
 		}
-		array_push($new_array, $temp_word);		
 	}
-	$_SESSION['new_phrase'] = $new_array;
+	$_SESSION['phrase'] = $new_phrase;
 	$form_state['redirect'] = 'cipher_result_page';
 }
 function shifted_phrase(){
-	$new_phrase = $SESSION['new_phrase'];
+	$new_phrase = $_SESSION['phrase'];	
 	return $new_phrase;
 }
