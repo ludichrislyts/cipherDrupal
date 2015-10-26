@@ -8,7 +8,7 @@
 * username: epicodus, password: epicodus
 
 #### Website info
-* website: Bookie's Books
+* website: Shift Cipher
 * admin: epicodus, password: epicodus
 
 This website built with Drupal; Cipher module with PHP and some Javascript, Jquerey, and AJAX
