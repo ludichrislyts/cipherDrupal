@@ -102,9 +102,7 @@
             }
         $_SESSION['triangle_result'] = $triangle_results;
         $form_state['redirect'] = 'triangle_tracker_result';
-
     }
-
     function triangle_tracker_result()
     {
         $answer = $_SESSION['triangle_result'];

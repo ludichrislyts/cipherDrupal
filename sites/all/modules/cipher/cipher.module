@@ -12,7 +12,7 @@ function cipher_menu()
 	);
 	$items['cipher_result_page'] = array(
 			'title' => 'Results of Shift',
-			'page callback' => 'shift',
+			'page callback' => 'shifted_phrase',
 			'access callback' => TRUE,
 			'type' =>MENU_CALLBACK,
 	);
@@ -81,4 +81,36 @@ function cipher_form_alter(&$form, $form_state, $form_id)
 		$form['submit']['#attributes'] = array(
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
 	}	
+}
+function cipher_form_submit($form, $form_state){
+	$input = $form_state['values']['phrase'];
+	$shift_value = $form_state['values']['shift'];
+	$direction = $form_state['values']['direction'];
+	$word_array = explode(' ', $input);
+	$new_array = [];
+	$temp_word = '';
+	foreach($word_array as $word){
+		for($i = 0; $i < strlen($word); $i++){
+			if($direction == 'left'){
+				ord($word[$i]) -= $shift_value;
+				if(ord($word) < 65 || ord(word) < 97){
+					ord($word) += 26;
+				}
+				$temp_word . $word[$i];
+			}else if($direction == 'right'){
+				ord($word[$i]) += $shift_value;
+				if(ord($word) > 90 || ord(word) > 122){
+					ord($word) -= 26;
+				}
+				$new_array . $word[$i];
+			}
+		}
+		array_push($new_array, $temp_word);		
+	}
+	$_SESSION['new_phrase'] = $new_array;
+	$form_state['redirect'] = 'cipher_result_page';
+}
+function shifted_phrase(){
+	$new_phrase = $SESSION['new_phrase'];
+	return $new_phrase;
 }
