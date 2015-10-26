@@ -3,6 +3,9 @@
 		//console.log(input);
 		var error_div = document.getElementById('error_message');
 		var input = error_div.getElementsByTagName("INPUT")[0];
+		if(input.length < 1){
+			return;
+		}
 		var form = document.getElementById('cipher-form');
 		var button = form.getElementsByTagName('INPUT')[3];
 		$(button).attr("value", "Shift it!");
