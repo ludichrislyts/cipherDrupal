@@ -89,21 +89,20 @@ function cipher_form_submit($form, &$form_state){
 	$new_chr = '';
 
 	for($i = 0; $i < strlen($input); $i++){
-		drupal_set_message(ord($input[$i]));
 		$num = ord($input[$i]);
 		if(($num < 65 || ($num > 90 && $num < 97) || $num > 122)){
 			$new_phrase .= $input[$i];
 			continue;
 		}else if($direction == 'left'){
 			$num -= $shift_value;
-			if($num < 65 || $num < 97){
+			if($num < 65 || ($num > 90 && $num < 97)){
 				$num += 26;
 			}
 			$new_chr = chr($num);
 			$new_phrase .= $new_chr;
 		}else if($direction == 'right'){
-			$num = ord($input[$i]);
-			if($num > 90 || $num > 122){
+			$num += $shift_value;
+			if(($num > 90 && $num < 97) || $num > 122){
 				$num -= 26;
 			}
 			$new_chr = chr($num);
