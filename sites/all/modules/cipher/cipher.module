@@ -87,6 +87,8 @@ function cipher_form_alter(&$form, $form_state, $form_id)
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
 	}	
 }
+
+
 function cipher_form_submit($form, &$form_state){
 	$input = $form_state['values']['phrase'];
 	$shift_value = $form_state['values']['shift'];
@@ -99,21 +101,36 @@ function cipher_form_submit($form, &$form_state){
 		if(($num < 65 || ($num > 90 && $num < 97) || $num > 122)){
 			$new_phrase .= $input[$i];
 			continue;
-		}else if($direction == 'left'){
-			$num -= $shift_value;
-			if($num < 65 || ($num > 90 && $num < 97)){
-				$num += 26;
-			}
-			$new_chr = chr($num);
-			$new_phrase .= $new_chr;
-		}else if($direction == 'right'){
-			$num += $shift_value;
-			if(($num > 90 && $num < 97) || $num > 122){
-				$num -= 26;
-			}
-			$new_chr = chr($num);
-			$new_phrase .= $new_chr;
 		}
+		// uppercase shifts, make sure to stay uppercase
+		if($num <= 90){
+			if($direction == 'left'){
+				$num -= $shift_value;
+				if($num < 65){
+					$num += 26;
+				}
+			}else{
+				$num += $shift_value;
+				if($num > 90){
+					$num -= 26;
+				}				
+			}
+		// lowercase shifts, make sure to stay lowercaser
+		}else if($num >= 97){
+			if($direction == 'left'){
+				$num -= $shift_value;
+				if($num < 97){
+					$num += 26;
+				}
+			}else{
+				$num += $shift_value;
+				if($num > 122){
+					$num -= 26;
+				}				
+			}
+		}
+		$new_chr = chr($num);
+		$new_phrase .= $new_chr;		
 	}
 	$_SESSION['phrase'] = $new_phrase;
 	$form_state['redirect'] = 'cipher_result_page';
