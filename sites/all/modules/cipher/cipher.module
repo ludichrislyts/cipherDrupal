@@ -71,14 +71,14 @@ function shift_validate_range($element)
 	}
 }
 function validate_direction_callback($form, &$form_state){
-	$commands = array();
-	$commands[] = ajax_command_html('#error_message', render($form['direction']));
-	$commands[] = array(
-		'command' => 'validateDirectionCallback',
-		'selectedValue' => $form_state['values']['direction'],
-		// 'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
-	);
-	return array('#type' => 'ajax', '#commands' => $commands);
+	// $commands = array();
+	// $commands[] = ajax_command_html('#error_message', render($form['direction']));
+	// $commands[] = array(
+	// 	'command' => 'validateDirectionCallback',
+	// 	'selectedValue' => $form_state['values']['direction'],
+	// 	// 'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
+	// );
+	// return array('#type' => 'ajax', '#commands' => $commands);
 }
 // function validate_phrase($form, &$form_state){
 	
