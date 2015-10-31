@@ -1,6 +1,7 @@
 (function ($, Drupal) {
 	Drupal.ajax.prototype.commands.validateDirectionCallback = function (ajax, response, status) {
 		//console.log(input);
+		alert('hello world');
 		var error_div = document.getElementById('error_message');
 		var input = error_div.getElementsByTagName("INPUT")[0];
 		if(input.length < 1){

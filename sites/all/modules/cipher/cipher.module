@@ -60,11 +60,14 @@ function cipher_form()
 	);
 	return $form;
 }
+<<<<<<< HEAD
 function validate_direction($element){
 	if($element['#value'] != 'left' && $element['#value'] != 'right'){
 		form_error($element, t('Direction must be "left" or "right"'));
 	}
 }
+=======
+>>>>>>> home
 function shift_validate_range($element)
 {
 	if ($element['#value'] < 0 || $element['#value'] > 25){
@@ -72,6 +75,7 @@ function shift_validate_range($element)
 	}
 }
 function validate_direction_callback($form, &$form_state){
+<<<<<<< HEAD
 	$commands = array();
 	$commands[] = ajax_command_html('#error_message', render($form['direction']));
 	$commands[] = array(
@@ -79,12 +83,26 @@ function validate_direction_callback($form, &$form_state){
 		'selectedValue' => $form_state['values']['direction'],
 	);
 	return array('#type' => 'ajax', '#commands' => $commands);
+=======
+	// $commands = array();
+	// $commands[] = ajax_command_html('#error_message', render($form['direction']));
+	// $commands[] = array(
+	// 	'command' => 'validateDirectionCallback',
+	// 	'selectedValue' => $form_state['values']['direction'],
+	// 	// 'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
+	// );
+	// return array('#type' => 'ajax', '#commands' => $commands);
+>>>>>>> home
 }
 function cipher_form_alter(&$form, $form_state, $form_id)
 {
 	if($form_id =='cipher_form'){
 		$form['submit']['#attributes'] = array(
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
+<<<<<<< HEAD
+=======
+
+>>>>>>> home
 	}	
 }
 
