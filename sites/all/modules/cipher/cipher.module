@@ -1,5 +1,5 @@
 <?php
-
+// Class project, s simple module that shifts letters of user input
 function cipher_menu()
 {
 	$items = array();
@@ -42,7 +42,6 @@ function cipher_form()
 		'#prefix' => '<div id="error_message">',
 		'#suffix' => '</div>',
 		'#required' => TRUE,
-		'#autofocus' => TRUE,
 		'#ajax' => array(
 				'event' => 'keyup',
 				'callback' => 'validate_direction_callback',
@@ -60,22 +59,22 @@ function cipher_form()
 	);
 	return $form;
 }
-<<<<<<< HEAD
+// fallback direction validation if ajax doesn't work right
 function validate_direction($element){
 	if($element['#value'] != 'left' && $element['#value'] != 'right'){
 		form_error($element, t('Direction must be "left" or "right"'));
 	}
 }
-=======
->>>>>>> home
 function shift_validate_range($element)
 {
 	if ($element['#value'] < 0 || $element['#value'] > 25){
 		form_error($element, t('Number must be at least 1 and less than 26.'));
 	}
 }
+/********************************************************
+**                  AJAX CALLBACK                      **
+********************************************************/
 function validate_direction_callback($form, &$form_state){
-<<<<<<< HEAD
 	$commands = array();
 	$commands[] = ajax_command_html('#error_message', render($form['direction']));
 	$commands[] = array(
@@ -83,30 +82,16 @@ function validate_direction_callback($form, &$form_state){
 		'selectedValue' => $form_state['values']['direction'],
 	);
 	return array('#type' => 'ajax', '#commands' => $commands);
-=======
-	// $commands = array();
-	// $commands[] = ajax_command_html('#error_message', render($form['direction']));
-	// $commands[] = array(
-	// 	'command' => 'validateDirectionCallback',
-	// 	'selectedValue' => $form_state['values']['direction'],
-	// 	// 'message' => drupal_set_message("Invalid response. You must enter 'left' or 'right'"),
-	// );
-	// return array('#type' => 'ajax', '#commands' => $commands);
->>>>>>> home
 }
+
+// just changing the submit button css here
 function cipher_form_alter(&$form, $form_state, $form_id)
 {
 	if($form_id =='cipher_form'){
 		$form['submit']['#attributes'] = array(
 			'style' => array('padding: 4px; border: 2px solid black; border-radius: 6px; color: black;'));		
-<<<<<<< HEAD
-=======
-
->>>>>>> home
 	}	
 }
-
-
 function cipher_form_submit($form, &$form_state){
 	$input = $form_state['values']['phrase'];
 	$shift_value = $form_state['values']['shift'];

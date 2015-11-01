@@ -1,16 +1,13 @@
 (function ($, Drupal) {
 	Drupal.ajax.prototype.commands.validateDirectionCallback = function (ajax, response, status) {
-		//console.log(input);
-		alert('hello world');
 		var error_div = document.getElementById('error_message');
 		var input = error_div.getElementsByTagName("INPUT")[0];
 		if(input.length < 1){
 			return;
 		}
 		// trying to make sure to grab the right form even when drupal changes it
-		var content_div = document.getElementsByClassName('content')[0];
+		//var content_div = document.getElementsByClassName('content')[0];
 		var form = document.getElementsByTagName('FORM')[1];
-		// var form = document.getElementById('cipher-form'); // original
 		var button = form.getElementsByTagName('INPUT')[3];
 		$(button).attr("value", "Shift it!");
 		$(button).css("color", "black");		
@@ -23,7 +20,7 @@
 		if('left'.indexOf(entry) === 0){
 		}else if('right'.indexOf(entry) == 0){
 		}else{
-			console.log('it is here in second else');
+			// creating error message <p> element, disabling submit button, and changing text color
 			var errorP = document.createElement("P");
 			$(errorP).css('color', 'red');
 			var errorText = document.createTextNode("Entry must be either 'left' or 'right'");
@@ -34,6 +31,7 @@
 			// $(button).attr("style", '!important');
 			$(button).attr("value", "Don't click here");
 		}
+		// putting focus back onto input field and populating the field with current string
 		input.focus();
 		input.value = '';
 		input.value = response.selectedValue;
