@@ -1,5 +1,5 @@
 <?php
-// Class project, s simple module that shifts letters of user input
+// Class project, a simple module that shifts letters of user input
 function cipher_menu()
 {
 	$items = array();
