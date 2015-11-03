@@ -42,16 +42,23 @@ function cipher_form()
 		'#prefix' => '<div id="error_message">',
 		'#suffix' => '</div>',
 		'#required' => TRUE,
-		'#ajax' => array(
-				'event' => 'keyup',
-				'callback' => 'validate_direction_callback',
-		), 
+		// '#attributes' => array(
+		// 	'onkeyup' => drupal_get_js('/js/val_left_or_right.js'),
+		// ),
+		// '#ajax' => array(
+		// 		'event' => 'keyup',
+		// 		'callback' => 'validate_direction_callback',
+		// ), 
 	);
 	$form['#attached']['js'] = array(
 		array(
 			'type' => 'file',
 			'data' => drupal_get_path('module', 'cipher') . '/js/cipher.js',
+			
 		),
+	);
+	$form['#attached']['js'] = array(
+		drupal_get_path('module', 'cipher') . '/js/val_left_or_right.js',
 	);
 	$form['submit'] = array(
 		'#type' => 'submit',
